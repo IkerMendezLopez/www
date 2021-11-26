@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Combos Dependientes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script type="text/javascript">
+        selectPro= document.getElementById("provincia");
+        onload = function() {
+            obtenerInformacion("cargaProvinciasJSON.php", selectPro);
+        }
+        function obtenerInformacion(archivo, select) {
+            if (window.XMLHttpRequest) {
+                peticion_http = new XMLHttpRequest();
+            } else if (window.ActiveXObject) {
+                peticion_http = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            peticion_http.onreadystatechange = () => {
+                if (peticion_http.readyState == 4 && peticion_http.status == 200) {
+                    peticion_http.open("GET", archivo);
+                    peticion_http.send();
+                    // for (let i=0; i<arr.length; i++) {
+                    //     console.log(arr[i]);
+                    // }
+                    // let res = JSON.parse(peticion_http.responseText);
+                    // console.log(res);
+                }
+            };
+            
+        }
+    </script>
+</head>
+<body>
+    <h1>Listas desplegables encadenadas</h1>
+    <label for="provincia">Provincia</label>
+    <select id="provincia">
+
+    </select>
+    <label for="municipio">Municipio</label>
+    <select id="municipio">
+        
+    </select>
+</body>
+</html>
