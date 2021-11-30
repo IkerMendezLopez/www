@@ -1,7 +1,4 @@
 <!DOCTYPE html>
-<!-- PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> -->
-<html xmlns="http://www.w3.org/1999/xhtml">
-
 <head>
 	<title>Combos mySQL</title>
 
@@ -18,16 +15,13 @@
 	<!-- MDB -->
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.10.0/mdb.min.css"
 		rel="stylesheet" />
-	<!-- Bottstrap -->
-
-	<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script> -->
 
 	<script type="text/javascript">
 		var peticion;
 		window.onload = function () {
 			cargarProvincias();
 			document.getElementById("provincia").onchange = cargarMunicipios;
-			// document.getElementById("municipio").onchange = mostrarMensaje;
+			document.getElementById("municipio").onchange = mostrarMensaje;
 
 		}
 
@@ -76,7 +70,7 @@
 			var lista = document.getElementById("provincia");
 			var provincia = lista.options[lista.selectedIndex].value;
 
-			console.log("provincia");
+			console.log(provincia);
 
 			if (!isNaN(provincia)) {
 				peticion = inicializa_xhr();
@@ -95,15 +89,27 @@
 					var lista = document.getElementById("municipio");
 					var municipios = eval('(' + peticion.responseText + ')');
 
-					municipioArray = minicipios;
+					municipiosArray = municipios;
 					console.log(municipiosArray);
 
-					// lista.options.
+					lista.options.length = 0;
+					var i =0;
+					for(var codigo in municipios){
+						lista.options[i] = new Option(municipios[codigo], codigo);
+						i++;
+					}
 				}
 			}
 		}
 
-
+		function mostrarMensaje(){
+			let mensaje = document.getElementById("mensaje");
+			var listaPro = document.getElementById("provincia");
+			var provincia = listaPro.options[listaPro.selectedIndex].innerHTML;
+			var listaMun = document.getElementById("municipio");
+			var municipio = listaMun.options[listaMun.selectedIndex].innerHTML;
+			mensaje.innerHTML = "<br>Has elegido la provincia de <b>" + provincia + "</b> y el municipio de <b>" + municipio + "</b>";
+		}
 	</script>
 </head>
 
