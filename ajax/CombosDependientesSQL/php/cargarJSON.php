@@ -1,8 +1,8 @@
 <?php
-	$hostname = "localhost:8889";
+	$hostname = "localhost";
 	$database = "territorio";
 	$username = "root";
-	$password = "root";
+	$password = "";
 	foreach ($_POST as $key => $value){
         if (empty($value)) {
                $value="";

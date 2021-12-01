@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <head>
 	<title>Combos mySQL</title>
 
@@ -93,8 +94,8 @@
 					console.log(municipiosArray);
 
 					lista.options.length = 0;
-					var i =0;
-					for(var codigo in municipios){
+					var i = 0;
+					for (var codigo in municipios) {
 						lista.options[i] = new Option(municipios[codigo], codigo);
 						i++;
 					}
@@ -102,13 +103,14 @@
 			}
 		}
 
-		function mostrarMensaje(){
+		function mostrarMensaje() {
 			let mensaje = document.getElementById("mensaje");
 			var listaPro = document.getElementById("provincia");
 			var provincia = listaPro.options[listaPro.selectedIndex].innerHTML;
 			var listaMun = document.getElementById("municipio");
 			var municipio = listaMun.options[listaMun.selectedIndex].innerHTML;
-			mensaje.innerHTML = "<br>Has elegido la provincia de <b>" + provincia + "</b> y el municipio de <b>" + municipio + "</b>";
+			mensaje.innerHTML = "<br>Has elegido la provincia de <b>" + provincia + "</b> y el municipio de <b>" + municipio +
+				"</b>";
 		}
 	</script>
 </head>
