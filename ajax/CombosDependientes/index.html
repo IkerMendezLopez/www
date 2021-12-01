@@ -1,46 +1,133 @@
 <!DOCTYPE html>
-<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Combos Dependientes</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <script type="text/javascript">
-        selectPro= document.getElementById("provincia");
-        onload = function() {
-            obtenerInformacion("cargaProvinciasJSON.php", selectPro);
-        }
-        function obtenerInformacion(archivo, select) {
-            if (window.XMLHttpRequest) {
-                peticion_http = new XMLHttpRequest();
-            } else if (window.ActiveXObject) {
-                peticion_http = new ActiveXObject("Microsoft.XMLHTTP");
-            }
-            peticion_http.onreadystatechange = () => {
-                if (peticion_http.readyState == 4 && peticion_http.status == 200) {
-                    peticion_http.open("GET", archivo);
-                    peticion_http.send();
-                    // for (let i=0; i<arr.length; i++) {
-                    //     console.log(arr[i]);
-                    // }
-                    // let res = JSON.parse(peticion_http.responseText);
-                    // console.log(res);
-                }
-            };
-            
-        }
-    </script>
-</head>
-<body>
-    <h1>Listas desplegables encadenadas</h1>
-    <label for="provincia">Provincia</label>
-    <select id="provincia">
+	<title>Combos mySQL</title>
 
-    </select>
-    <label for="municipio">Municipio</label>
-    <select id="municipio">
-        
-    </select>
+	<meta http-equiv="Content-Type"
+		content="text/html"
+		charset="UTF-8" />
+
+	<!-- Font Awesome -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+		rel="stylesheet" />
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+		rel="stylesheet" />
+	<!-- MDB -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.10.0/mdb.min.css"
+		rel="stylesheet" />
+
+	<script type="text/javascript">
+		var peticion;
+		window.onload = function () {
+			cargarProvincias();
+			document.getElementById("provincia").onchange = cargarMunicipios;
+			document.getElementById("municipio").onchange = mostrarMensaje;
+
+		}
+
+		function inicializa_xhr() {
+			if (window.XMLHttpRequest) {
+				return new XMLHttpRequest();
+			} else if (window.ActiveXObject) {
+				return new ActiveXObject("Microsoft.XMLHTTP");
+			}
+		}
+
+		function cargarProvincias() {
+			console.log("Cargando provincias...");
+			peticion = inicializa_xhr();
+			if (peticion) {
+				console.log();
+				peticion.onreadystatechange = muestraProvincias;
+				peticion.open("GET", "php/cargaProvinciasJSON.php", true);
+				peticion.send(null);
+			}
+			muestraProvincias;
+		}
+
+		function muestraProvincias() {
+			if (peticion.readyState == 4) {
+				if (peticion.status == 200) {
+					console.log(peticion.responseText);
+					var lista = document.getElementById("provincia");
+					var provincias = eval('(' + peticion.responseText + ')');
+					provinciasArray = provincias;
+
+					console.log(provinciasArray);
+
+					lista.options[0] = new Option("- selecciona -");
+					var i = 1;
+					for (var codigo in provincias) {
+						lista.options[i] = new Option(provincias[codigo], codigo);
+						i++;
+					}
+				}
+			}
+		}
+
+		function cargarMunicipios() {
+			console.log("Cargando municipios...");
+			var lista = document.getElementById("provincia");
+			var provincia = lista.options[lista.selectedIndex].value;
+
+			console.log(provincia);
+
+			if (!isNaN(provincia)) {
+				peticion = inicializa_xhr();
+				if (peticion) {
+					peticion.onreadystatechange = muestraMunicipios;
+					peticion.open("POST", "php/cargaMunicipiosJSON.php?nocache=" + Math.random(), true);
+					peticion.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+					peticion.send("provincia=" + provincia);
+				}
+			}
+		}
+
+		function muestraMunicipios() {
+			if (peticion.readyState == 4) {
+				if (peticion.status == 200) {
+					var lista = document.getElementById("municipio");
+					var municipios = eval('(' + peticion.responseText + ')');
+
+					municipiosArray = municipios;
+					console.log(municipiosArray);
+
+					lista.options.length = 0;
+					var i =0;
+					for(var codigo in municipios){
+						lista.options[i] = new Option(municipios[codigo], codigo);
+						i++;
+					}
+				}
+			}
+		}
+
+		function mostrarMensaje(){
+			let mensaje = document.getElementById("mensaje");
+			var listaPro = document.getElementById("provincia");
+			var provincia = listaPro.options[listaPro.selectedIndex].innerHTML;
+			var listaMun = document.getElementById("municipio");
+			var municipio = listaMun.options[listaMun.selectedIndex].innerHTML;
+			mensaje.innerHTML = "<br>Has elegido la provincia de <b>" + provincia + "</b> y el municipio de <b>" + municipio + "</b>";
+		}
+	</script>
+</head>
+
+<body>
+	<h1>LISTAS DESPLEGABLES ENCADENADAS</h1>
+	<form action="">
+		<div id="divprovincia">
+			<label for="provincia">Provincia:</label>
+			<select id="provincia"
+				class="form-control"> </select>
+		</div><br />
+		<div id="divmunicipio">
+			<label for="municipio">Municipio:</label>
+			<select id="municipio"
+				class="form-control"></select>
+		</div>
+		<div id="mensaje"></div>
+	</form>
 </body>
+
 </html>
