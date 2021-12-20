@@ -9,6 +9,7 @@
         var formulario = $(this);
         var dataSerializada = formulario.serialize();
 
+    });
         $.ajax({
                 type: 'POST',
                 url: 'php/servicios/post.alumnos.php',
@@ -26,5 +27,4 @@
                 console.log("Fallo!");
             });
 
-    });
 })();

@@ -57,7 +57,7 @@ class Database{
 	}
 
 	// Metodo que revisa el String SQL
-	private function es_string($sql){
+	private static function es_string($sql){
 		if (!is_string($sql)) {
 			trigger_error('class.Database.inc: $SQL enviado no es un string: ' .$sql);
 			return false;
@@ -72,7 +72,7 @@ class Database{
 	// ==================================================
 	public static function get_Row($sql){
 		
-		if(!self::es_string($sql))
+		if(!Database::es_string($sql))
 			exit();
 
 		$db = DataBase::getInstancia();
