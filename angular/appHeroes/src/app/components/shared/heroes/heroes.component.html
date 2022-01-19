@@ -14,8 +14,10 @@
           <p class="card-text">{{ heroe.bio }}</p>
           <p class="card-text"><small class="text-muted">{{ heroe.aparicion }}</small></p>
           <!-- <button type="buttom" class="btn btn-outline-primary btn-block"> Ver más...</button> -->
-          <a [routerLink]="['/heroe', i]"
-            class="btn btn-outline-primary btn-block"> Ver más...</a>
+          <button (click)="verHeroe(i)" type="button" class="btn btn-primary btn-block">
+            Ver más...
+          </button>
+          <!-- <a [routerLink]="['/heroe', i]" class="btn btn-outline-primary btn-block"> Ver más...</a> -->
         </div>
       </div>
     </div>

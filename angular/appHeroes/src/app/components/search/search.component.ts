@@ -1,20 +1,24 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-search',
-  template: `
-    <p>
-      search works!
-    </p>
-  `,
+  templateUrl: './search.component.html',
   styles: [
   ]
 })
 export class SearchComponent implements OnInit {
 
-  constructor() { }
+  constructor( private activatedRoute: ActivatedRoute) { 
 
+  }
+
+ 
+  
   ngOnInit(): void {
+    this.activatedRoute.params.subscribe( params => {
+      console.log(params['termino']);
+    })
   }
 
 }
