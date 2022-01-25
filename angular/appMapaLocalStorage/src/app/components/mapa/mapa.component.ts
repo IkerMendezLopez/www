@@ -42,7 +42,7 @@ export class MapaComponent implements OnInit {
 
   guardarStorage(){
     localStorage.setItem('marcadores', JSON.stringify(this.marcadores));
-    this.snackbar.open('Marcador agregado', 'Cerrar', {duration: 3000});
+    this.snackbar.open('Datos Guardados', 'Cerrar', {duration: 3000});
   }
   
   borrarMarcador(i:any){
@@ -55,7 +55,19 @@ export class MapaComponent implements OnInit {
     const dialogRef = this.dialog.open(MapaEditarComponent, {
       width: '250px',
       data: {titulo: marcador.titulo, desc: marcador.desc},
-    })
+    });
+
+    dialogRef.afterClosed().subscribe(result=>{
+      console.log("DialogRef cerrado");
+      if(!result){
+        return;
+      }
+
+      marcador.titulo = result.titulo;
+      marcador.desc = result.desc;
+
+      this.guardarStorage();
+    });
   }
   
 }

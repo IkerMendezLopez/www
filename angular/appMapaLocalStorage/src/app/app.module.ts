@@ -9,11 +9,8 @@ import { MaterialModule } from './material.module';
 import { MapaComponent } from './components/mapa/mapa.component';
 import { AgmCoreModule } from '@agm/core';
 import { MapaEditarComponent } from './components/mapa/mapa-editar.component';
-
+import { ReactiveFormsModule} from '@angular/forms';
 @NgModule({
-  entryComponents: [
-    MapaEditarComponent
-  ],
   declarations: [
     AppComponent,
     MapaComponent,
@@ -24,6 +21,7 @@ import { MapaEditarComponent } from './components/mapa/mapa-editar.component';
     MatSliderModule,
     BrowserAnimationsModule,
     MaterialModule,
+    ReactiveFormsModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDY3YQ6aNb7YXoz13RIxq5fVyzdbak7sQ0'
     })
