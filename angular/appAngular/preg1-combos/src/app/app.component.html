@@ -1,0 +1,31 @@
+<div class="container">
+  <h2>{{title}}</h2>
+    <div class="row">
+      <div class="col-md-4">
+          <label for="selPais"><strong>Pais</strong></label>
+          <select name="selPais" id="selPais" class="form-control" (change)="onSelectPais($event.target.value)">
+            <option value="0">-- Seleccione un país --</option>
+            <option *ngFor="let p of paises | unique | orderBy" [value]="p">{{p}}</option>
+          </select>
+      </div>
+      <div class="col-md-4" #provincia>
+          <label for="selProvincia"><strong>Provincia o Estado</strong></label>
+          <select name="selProvincia" id="selProvincia" class="form-control" (change)="onSelectProvincia($event.target.value)">
+            <option value="0">-- Seleccione un estado o provincia --</option>
+            <option *ngFor="let p of provincias | unique | orderBy" [value]="p">{{p}}</option>
+          </select>
+      </div>
+      <div class="col-md-4 mb-5" #ciudad>
+          <label for="selCiudad"><strong>Ciudad</strong></label>
+          <select name="selCiudad" id="selCiudad" class="form-control" (change)="onSelectCiudad($event.target.value)"> 
+            <option value="0">-- Seleccione una ciudad --</option>
+            <option *ngFor="let c of ciudades | orderBy" [value]="c">{{c}}</option>
+          </select>
+      </div>
+    </div>
+
+</div>
+<br> 
+<div [hidden]="!verMensaje" class="container" id="mensaje" >
+</div> 
+

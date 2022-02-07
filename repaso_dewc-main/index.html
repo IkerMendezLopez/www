@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible"
+        content="IE=edge">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+    <title>Examen DEWC</title>
+</head>
+
+<body>
+    <form action=""
+        id="mainForm">
+        <label for="tipo">Tipo:</label>
+        <select name="tipo"
+            id="tipo">
+
+        </select><br>
+        <label for="procesador">Procesador</label>
+        <select name="procesador"
+            id="procesador"></select><br>
+        <label for="disco">Disco Duro</label>
+        <select name="disco"
+            id="disco"></select><br>
+        <input type="submit"
+            value="Calcular Precio"
+            id="calcular">
+    </form>
+
+    <script>
+
+
+
+        (function () {
+
+            const selectTipo = document.querySelector('#tipo')
+            const selectProcesador = document.querySelector('#procesador')
+            const selectDisco = document.querySelector('#disco')
+            const btnCalcular = document.querySelector('#calcular')
+
+            selectTipo.appendChild(new Option('- Selecciones un tipo -', -1, true))
+            selectProcesador.appendChild(new Option('- Selecciones un procesador -', -1, true))
+            selectDisco.appendChild(new Option('- Selecciones un disco -', -1, true))
+
+            selectProcesador.disabled = true
+            selectDisco.disabled = true
+            btnCalcular.disabled = true
+
+            const cargarComboDiscos = (tipo, procesador) => {
+                selectDisco.disabled = false
+                fetch(`disco.php?tipo=${tipo}&procesador=${procesador}`)
+                    .then(data => data.json())
+                    .then(res => {
+                        console.log(res)
+                        if (!res) return
+                        selectDisco.innerHTML = ""
+                        selectDisco.appendChild(new Option('- Selecciones un disco -', -1, true))
+                        res.forEach(cpu => {
+                            let { id, opcion3, id_opcion1, id_opcion2, precio } = cpu
+                            let op = new Option(opcion3, id)
+                            selectDisco.appendChild(op)
+                        });
+
+                        selectDisco.addEventListener('change', () => {
+                            let disco = selectDisco.value
+                            let procesador = selectProcesador.value
+                            let tipo = selectTipo.value
+                            
+                            if(tipo != -1 && procesador != -1 && disco != -1){
+                                btnCalcular.disabled = false
+                            }else {
+                                btnCalcular.disabled = true
+                            }
+                        })
+                    })
+            }
+
+            const cargarComboProcesadores = (tipo) => {
+                selectProcesador.disabled = false
+                fetch(`procesador.php?tipo=${tipo}`)
+                    .then(data => data.json())
+                    .then(res => {
+                        console.log(res)
+                        if (!res) return
+                        
+                        res.forEach(cpu => {
+                            let { id, opcion2, id_opcion1 } = cpu
+                            let op = new Option(opcion2, id)
+                            selectProcesador.appendChild(op)
+                        });
+                        selectProcesador.addEventListener('change', () => {
+                            let procesador = selectProcesador.value
+                            let tipo = selectTipo.value
+                            if(procesador != -1 && tipo != -1) cargarComboDiscos(tipo, procesador)
+                            else {
+                                selectDisco.disabled = true
+                                selectDisco.innerHTML = ""
+                                selectDisco.appendChild(new Option('- Selecciones un procesador -', -1, true))
+                                btnCalcular.disabled = true
+                            } 
+                        })
+                    })
+            }
+
+            const cargarComboTipo = () => {
+                fetch('tipo.php')
+                    .then(data => data.json())
+                    .then(res => {
+                        if (!res) return
+                        res.forEach(tipo => {
+                            let { id, opcion1 } = tipo
+                            let op = new Option(opcion1, id)
+                            selectTipo.appendChild(op)
+                        });
+                        selectTipo.addEventListener('change', () => {
+                            let val = selectTipo.value
+                            if(val != -1) cargarComboProcesadores(val)
+                            else {
+                                selectProcesador.disabled = true
+                                selectProcesador.innerHTML = ""
+                                selectProcesador.appendChild(new Option('- Selecciones un procesador -', -1, true))
+                                selectDisco.disabled = true
+                                selectDisco.innerHTML = ""
+                                selectDisco.appendChild(new Option('- Selecciones un procesador -', -1, true))
+                                btnCalcular.disabled = true
+                            } 
+                        })
+                    })
+
+
+            }
+
+            cargarComboTipo()
+
+
+            btnCalcular.addEventListener('click', e => {
+                e.preventDefault()
+                fetch
+            })
+
+
+
+
+        })();
+
+    </script>
+</body>
+
+</html>

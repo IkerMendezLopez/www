@@ -1,0 +1,28 @@
+ul {
+  list-style: none;
+  margin: 20px 0 0 0;
+  padding: 0;
+  max-width: 400px;
+}
+
+li {
+  padding: 10px;
+  border-bottom: 1px solid var(--grey);
+}
+
+li:last-child {
+  border-bottom: 0;
+}
+
+.green {
+  color: var(--green);
+}
+
+.red {
+  color: var(--red);
+}
+
+.palindrome-name {
+  font-weight: bold;
+  text-transform: uppercase;
+}
